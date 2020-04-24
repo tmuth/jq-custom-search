@@ -41,7 +41,7 @@ class jqSearchCommand(StreamingCommand):
         self.logger.debug('jqSearchCommand: %s', self)  # logs command line
         
         for record in records:
-            record['foo'] = 'bar'
+            #record['foo'] = 'bar'
             
             command = "jq "+self.args+" "+self.filter
             proc = subprocess.Popen(["jq",self.args,self.filter], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,shell=False,bufsize=2)
