@@ -1,0 +1,23 @@
+[app/ui]
+version = 8.0.0
+modtime = 1580480164.490351000
+
+[app/launcher]
+version = 8.0.0
+modtime = 1580480164.492039000
+
+[indexes/json_sample]
+owner = admin
+version = 8.0.0
+modtime = 1580504543.443471000
+
+[]
+access = read : [ * ], write : [ admin, power ]
+export = system
+version = 8.0.0
+modtime = 1580506498.443814000
+
+[props/fio_json]
+owner = admin
+version = 8.0.0
+modtime = 1580759419.205116000
