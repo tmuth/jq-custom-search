@@ -1,8 +1,19 @@
 # jq-custom-search
-jq Custom Search command wrapper for Splunk
+jq Custom Search command wrapper for Splunk that exposes the jq binary from https://stedolan.github.io. jq is a lightweight and flexible command-line JSON processor. jq is like sed for JSON data - you can use it to slice and filter and map and transform structured data with the same ease that sed, awk, grep and friends let you play with text.
 
 ## Installation
 You must install the jq binary first
+
+## Parameters
+**input** this is the Splunk field that contains the json you wish to transform
+
+**output** is the name of the field that this command will create with the output of the transform
+
+**args** are the jq parameters documeted here https://stedolan.github.io/jq/manual/#Invokingjq. `-r` should be used within Splunk. The other parameters are optional. 
+
+**split** is used to split a single Splunk event into multiple events based on a boundary string. The use-case is json field that actually contains multiple events. 
+
+**filter** is the jq filter or transform logic used to manipulate the json document. 
 
 ## Examples
 Simple JSON Reformat
