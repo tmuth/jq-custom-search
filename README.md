@@ -42,3 +42,13 @@ Split a single json event/field into multiple events. Pull a parent value down i
 | eval json="{\"fioversion\":\"fio-3.1\",\"timestamp\":1550591003,\"jobs\":[{\"jobname\":\"job1\",\"read\":{\"iops\":1111}},{\"jobname\":\"job2\",\"read\":{\"iops\":2222}}]}"
 | jq input=json output=json_new args="-r" split="}" filter=".timestamp as $ts | .jobs[] | {jobname: .jobname, timestamp: $ts,read_iops: .read.iops}"
 ```
+Build on the previous result and expand the json into separate fields you can chart in Splunk
+```
+| makeresults count=1
+| eval json="{\"fioversion\":\"fio-3.1\",\"timestamp\":1550591003,\"jobs\":[{\"jobname\":\"job1\",\"read\":{\"iops\":1111}},{\"jobname\":\"job2\",\"read\":{\"iops\":2222}}]}"
+| jq input=json output=json_new args="-r" split="}" filter=".timestamp as $ts | .jobs[] | {jobname: .jobname, timestamp: $ts,read_iops: .read.iops}"
+| rex field=json_new "(?msi)(?<json_field>\{.+\}$)" 
+| spath input=json_field
+| eval _time=timestamp
+| chart mean(read_iops) by jobname
+```
