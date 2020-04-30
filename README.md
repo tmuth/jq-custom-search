@@ -36,3 +36,9 @@ Combine keys in one array with values in another array
 | jq input=json output=json_new args="-r" split="" filter=".result | [.\"event.AuditKeyValues{}.Key\", .\"event.AuditKeyValues{}.ValueString\"] | transpose | map({(.[0]): .[1]}) | add"
 | table json_original,json_new
 ```
+Split a single json event/field into multiple events. Pull a parent value down into multiple child array elements. 
+```
+| makeresults count=1
+| eval json="{\"fioversion\":\"fio-3.1\",\"timestamp\":1550591003,\"jobs\":[{\"jobname\":\"job1\",\"read\":{\"iops\":1111}},{\"jobname\":\"job2\",\"read\":{\"iops\":2222}}]}"
+| jq input=json output=json_new args="-r" split="}" filter=".timestamp as $ts | .jobs[] | {jobname: .jobname, timestamp: $ts,read_iops: .read.iops}"
+```
